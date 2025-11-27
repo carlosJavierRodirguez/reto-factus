@@ -1,59 +1,124 @@
-# FactusFrontend
+# 📁 Estructura del Proyecto — Factus Frontend (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
+Este documento describe la arquitectura y organización de carpetas utilizada en el proyecto Factus Frontend, siguiendo buenas prácticas para Angular 18 con standalone components.
 
-## Development server
+## 🏗️ Estructura General
 
-To start a local development server, run:
-
-```bash
-ng serve
+```
+factus-frontend/
+├── .angular/               
+├── .editorconfig           
+├── .gitignore              
+├── .vscode/                
+├── angular.json            
+├── node_modules/           
+├── package-lock.json       
+├── package.json            
+├── public/                 
+│   └── favicon.ico         
+├── README.md               
+├── src/
+│   ├── index.html          
+│   ├── main.ts             
+│   ├── styles.css          
+│   └── app/
+│       ├── app.config.ts   
+│       ├── app.css         
+│       ├── app.html        
+│       ├── app.routes.ts   
+│       ├── app.spec.ts     
+│       ├── app.ts          
+│
+│       ├── core/                   
+│       │   ├── guards/            
+│       │   ├── interceptors/      
+│       │   ├── layouts/           
+│       │   ├── models/            
+│       │   └── services/          
+│
+│       ├── modules/               
+│       │   └── auth/              
+│       │       ├── auth.routes.ts 
+│       │       └── pages/         
+│       │           └── login/     
+│       │               ├── login.css
+│       │               ├── login.html
+│       │               ├── login.spec.ts
+│               └── login.ts
+│
+│       └── shared/                
+│           ├── components/        
+│           ├── directives/        
+│           ├── pipes/             
+│           └── utils/             
+│
+├── tsconfig.app.json              
+├── tsconfig.json                  
+└── tsconfig.spec.json             
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 📦 Descripción de Carpetas
 
-## Code scaffolding
+### src/
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Código fuente principal del proyecto.
 
-```bash
-ng generate component component-name
+### app/
+
+Contiene toda la lógica y estructura central de Angular.
+
+#### 🧠 Core
+
+**src/app/core/**
+
+Aquí va todo lo que es central, global y único:
+
+- **guards/** → CanActivate, CanMatch, etc.
+- **interceptors/** → JWT interceptor, manejo de errores, loaders.
+- **layouts/** → Plantillas generales (LoginLayout, DashboardLayout).
+- **models/** → Interfaces y tipos (User, AuthResponse, Invoice...).
+- **services/** → Servicios globales como AuthService, ApiService, StorageService.
+
+#### 🔌 Modules
+
+**src/app/modules/**
+
+Cada módulo representa una funcionalidad grande y aislada.
+
+**Ejemplo: Auth Module**
+
+```
+modules/auth/
+├── auth.routes.ts
+├── pages/
+│   └── login/
+│       ├── login.ts
+│       ├── login.html
+│       ├── login.css
+│       └── login.spec.ts
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Usa rutas propias y standalone components.
 
-```bash
-ng generate --help
-```
+#### ♻️ Shared
 
-## Building
+**src/app/shared/**
 
-To build the project run:
+Todo lo reutilizable a lo largo del proyecto:
 
-```bash
-ng build
-```
+- **components/** → tablas, botones, modales, inputs…
+- **directives/** → validadores, permisos, focus…
+- **pipes/** → formateo de moneda, fechas…
+- **utils/** → helpers JS/TS como manejo de fechas o generar UUID.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### 🔧 Archivos de Configuración
 
-## Running unit tests
+- **app.routes.ts** → Rutas principales (lazy loading).
+- **app.config.ts** → Configuración de providers globales.
+- **main.ts** → Bootstrap de la aplicación.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### 📜 Estilos
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **styles.css** → Estilos globales.
+- **app.css** → Estilos del componente raíz.
+- **login.css**, etc. → Estilos por página.
