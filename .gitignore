@@ -1,0 +1,45 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/factus/dist
+/factus/tmp
+/factus/out-tsc
+/factus/bazel-out
+
+# Node
+/factus/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+/factus/.vscode/*
+!/factus/.vscode/settings.json
+!/factus/.vscode/tasks.json
+!/factus/.vscode/launch.json
+!/factus/.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/factus/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
+
+# System files
+.DS_Store
+Thumbs.db
+
+.claude
