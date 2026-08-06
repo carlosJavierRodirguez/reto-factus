@@ -1,59 +1,93 @@
 # Factus
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
+Frontend en Angular que consume la **API Factus**, la API de facturación electrónica de la empresa **Halltec**. Esta aplicación es la interfaz web para operar dicha API (autenticación, gestión de facturación, etc.), sin lógica de negocio propia en el backend: todo el procesamiento de facturación vive del lado de la API consumida.
 
-## Development server
+## Tecnologías utilizadas
 
-To start a local development server, run:
+- **[Angular 21](https://angular.dev/)** — standalone components (sin `NgModule`), control de flujo moderno (`@if`, `@for`) y signals como sistema de reactividad.
+- **TypeScript**
+- **Reactive Forms** (`@angular/forms`) — formularios con validación reactiva (ej. login).
+- **Angular Router** — ruteo de páginas del lado del cliente (SPA, sin SSR).
+- **[Vitest](https://vitest.dev/)** — pruebas unitarias.
+- **[Vercel](https://vercel.com/)** — hosting y despliegue continuo.
+
+## Estructura del proyecto
+
+```
+factus/
+├── public/                    # Assets estáticos (favicon, etc.)
+├── src/
+│   ├── app/
+│   │   ├── auth/
+│   │   │   └── login/         # Pantalla de login (formulario reactivo)
+│   │   │       ├── login.ts
+│   │   │       ├── login.html
+│   │   │       └── login.css
+│   │   ├── app.ts              # Componente raíz (bootstrap, <router-outlet>)
+│   │   ├── app.html
+│   │   ├── app.css
+│   │   ├── app.config.ts       # Providers globales (router, etc.)
+│   │   └── app.routes.ts       # Definición de rutas
+│   ├── index.html              # HTML raíz, monta <app-root>
+│   ├── main.ts                 # Punto de entrada (bootstrapApplication)
+│   └── styles.css              # Estilos globales
+├── angular.json                 # Configuración del CLI / build
+├── package.json
+└── vercel.json                  # Configuración de despliegue en Vercel
+```
+
+A medida que crezca la app, cada dominio funcional (facturas, clientes, etc.) se organizará como una carpeta propia dentro de `src/app/`, siguiendo el mismo patrón que `auth/login`.
+
+## Consumo de la API Factus
+
+Esta aplicación es exclusivamente **frontend**: no expone ni implementa lógica de facturación electrónica propia. Toda esa lógica corresponde a la **API Factus de Halltec**, contra la cual esta app hará las peticiones (autenticación, emisión de documentos, consultas, etc.) mediante `HttpClient`.
+
+## Servidor de desarrollo
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Abre `http://localhost:4200/`. La app recarga automáticamente al modificar archivos fuente.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Generación de código
 
 ```bash
-ng generate component component-name
+ng generate component nombre-componente
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Para ver todos los schematics disponibles:
 
 ```bash
 ng generate --help
 ```
 
-## Building
-
-To build the project run:
+## Build de producción
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Genera los artefactos en `dist/factus/browser/`, optimizados para producción.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Pruebas unitarias
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+Ejecuta las pruebas con [Vitest](https://vitest.dev/).
 
-For end-to-end (e2e) testing, run:
+## Despliegue
 
-```bash
-ng e2e
-```
+El proyecto está **desplegado en Vercel**. La configuración de build está en [`vercel.json`](./vercel.json):
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- **Build command**: `npm run build`
+- **Output directory**: `dist/factus/browser`
+- **Rewrites**: todas las rutas redirigen a `index.html` para que el enrutamiento del lado del cliente (Angular Router) funcione correctamente en una SPA sin SSR (ej. al refrescar `/login`).
 
-## Additional Resources
+Al importar el repositorio en Vercel, el **Root Directory** debe apuntar a `factus/`, ya que el proyecto Angular vive en esa subcarpeta y no en la raíz del repositorio.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Recursos adicionales
+
+Para más información sobre Angular CLI, incluyendo referencia de comandos, visita [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).
