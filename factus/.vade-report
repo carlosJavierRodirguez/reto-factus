@@ -1,75 +1,53 @@
-# Vercel Speed Insights Installation Report
-
-## Summary
-Successfully installed and configured Vercel Speed Insights for this Angular project following the latest official documentation.
+Implemented Vercel Web Analytics for the Angular project as requested.
 
 ## Changes Made
 
 ### 1. Package Installation
-- **Added**: `@vercel/speed-insights` version ^2.0.0 to dependencies
-- **Updated**: package.json and package-lock.json
+- Installed `@vercel/analytics` version 2.0.1 using npm
+- Package added to dependencies in package.json
+- Updated package-lock.json to reflect the new dependency
 
-### 2. Speed Insights Configuration
-- **Modified**: `src/app/app.config.ts`
-- **Added**: Import for `injectSpeedInsights` from `@vercel/speed-insights`
-- **Added**: Initialization code that calls `injectSpeedInsights()` with browser environment check
+### 2. Configuration
+Modified: `src/app/app.config.ts`
+- Imported the `inject` function from `@vercel/analytics`
+- Added Web Analytics initialization following the same pattern as the existing Speed Insights setup
+- The `inject()` function is called within a browser check (`typeof window !== 'undefined'`) to ensure it only runs in the browser context, not during server-side rendering
 
-## Implementation Details
+### 3. Implementation Details
+Following the official Vercel documentation (https://vercel.com/docs/analytics/quickstart), Angular projects should use the generic `inject` function rather than framework-specific components (which are available for React, Next.js, Vue, etc.).
 
-Since Angular doesn't have a dedicated Speed Insights integration in the @vercel/speed-insights package, I used the generic `injectSpeedInsights()` function approach documented for frameworks without first-class support.
-
-The implementation was added to `app.config.ts` (the application configuration file) which ensures Speed Insights is initialized when the Angular application bootstraps. The initialization includes a `typeof window !== 'undefined'` check to prevent server-side execution issues.
-
-### Code Added to app.config.ts:
+The implementation:
 ```typescript
-import { injectSpeedInsights } from '@vercel/speed-insights';
+import { inject } from '@vercel/analytics';
 
-// Initialize Vercel Speed Insights
+// Initialize Vercel Web Analytics
 if (typeof window !== 'undefined') {
-  injectSpeedInsights();
+  inject();
 }
 ```
 
-## Verification
+This approach:
+- Matches the existing pattern used for Speed Insights in the same file
+- Ensures the analytics script only loads in the browser
+- Automatically tracks page views when deployed to Vercel
+- Requires no additional configuration in components or templates
 
-✅ **Build**: Successfully built the project with no errors
-✅ **Tests**: Existing tests pass (1 pre-existing unrelated test failure)
-✅ **Dependencies**: Lock files properly updated with npm
-✅ **Bundle Size**: Main bundle increased by ~15kB (from 223kB to 238kB) - within acceptable range
+### 4. Verification
+- ✅ Build completed successfully (npm run build)
+- ✅ Tests run (1 pre-existing test failure unrelated to analytics changes)
+- ✅ No linting errors introduced
+- ✅ Dependencies properly installed and lock file updated
 
 ## How It Works
+Once deployed to Vercel, the Web Analytics will automatically:
+- Track page views across the application
+- Collect visitor data in a privacy-friendly manner
+- Display real-time traffic insights in the Vercel dashboard
+- Work seamlessly with the existing Speed Insights integration
 
-The `injectSpeedInsights()` function:
-- Injects the Vercel Speed Insights tracking script into the page
-- Automatically tracks Web Vitals metrics (LCP, FID, CLS, etc.)
-- Sends performance data to Vercel's Speed Insights dashboard
-- Only tracks in production mode (disabled in development by default)
+## Next Steps for User
+1. Deploy the application to Vercel
+2. Enable Web Analytics in the Vercel dashboard (Analytics section)
+3. View analytics data in the Vercel dashboard after deployment
 
-## Configuration Options
-
-The implementation uses default settings. If needed, you can customize by passing options to `injectSpeedInsights()`:
-
-```typescript
-injectSpeedInsights({
-  sampleRate: 0.5,        // Track 50% of events (cost optimization)
-  debug: true,            // Enable debug logging
-  beforeSend: (event) => {
-    // Modify or filter events before sending
-    return event;
-  }
-});
-```
-
-## Documentation References
-
-- Official Quickstart: https://vercel.com/docs/speed-insights/quickstart
-- Configuration Options: https://vercel.com/docs/speed-insights/package
-- GitHub Repository: https://github.com/vercel/speed-insights
-
-## Next Steps
-
-After deployment to Vercel:
-1. Speed Insights will automatically start collecting performance metrics
-2. View metrics in the Vercel dashboard under your project's Speed Insights tab
-3. Monitor Web Vitals scores and identify performance bottlenecks
-4. No additional configuration required for basic usage
+The integration is complete and ready for deployment.
