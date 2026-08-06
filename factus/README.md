@@ -13,7 +13,7 @@ Frontend en Angular que consume la **API Factus**, la API de facturación electr
 
 ## Estructura del proyecto
 
-```
+```text
 factus/
 ├── public/                    # Assets estáticos (favicon, etc.)
 ├── src/
