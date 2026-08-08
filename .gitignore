@@ -11,6 +11,9 @@
 npm-debug.log
 yarn-error.log
 
+# Variables de entorno (credenciales)
+/factus/.env
+
 # IDEs and editors
 .idea/
 .project

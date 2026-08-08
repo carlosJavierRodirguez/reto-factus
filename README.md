@@ -42,6 +42,21 @@ A medida que crezca la app, cada dominio funcional (facturas, clientes, etc.) se
 
 Esta aplicación es exclusivamente **frontend**: no expone ni implementa lógica de facturación electrónica propia. Toda esa lógica corresponde a la **API Factus de Halltec**, contra la cual esta app hará las peticiones (autenticación, emisión de documentos, consultas, etc.) mediante `HttpClient`.
 
+## Variables de entorno
+
+La app necesita credenciales de la **API Factus** para autenticarse. Estas credenciales las provee **Halltec** (dueña de la API); este proyecto no las genera.
+
+1. Copia `factus/.env.example` como `factus/.env`.
+2. Completa los valores con los datos entregados por Halltec.
+
+| Variable        | Descripción                                                                                                |
+| --------------- | ---------------------------------------------------------------------------------------------------------- |
+| `URL_API`       | URL base de la API Factus. Sandbox: `https://api-sandbox.factus.com.co`. Producción: la entrega Halltec.   |
+| `CLIENT_ID`     | Identificador de cliente (Client ID) para autenticación OAuth. Provisto por Halltec.                       |
+| `CLIENT_SECRET` | Secreto de cliente (Client Secret) para autenticación OAuth. Provisto por Halltec.                         |
+
+> ⚠️ `factus/.env` está en `.gitignore` y nunca debe commitearse: contiene credenciales reales entregadas por Halltec.
+
 ## Servidor de desarrollo
 
 ```bash
@@ -90,4 +105,5 @@ Al importar el repositorio en Vercel, el **Root Directory** debe apuntar a `fact
 
 ## Recursos adicionales
 
-Para más información sobre Angular CLI, incluyendo referencia de comandos, visita [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).
+- [Guía de uso de Factus (Halltec)](./Guia-uso-factus_Halltec.pdf) — guía en PDF, provista por Halltec, sobre el uso de la API Factus.
+- Para más información sobre Angular CLI, incluyendo referencia de comandos, visita [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).
